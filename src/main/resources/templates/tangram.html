@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+    <title>Tangram</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://zimjs.org/cdn/1.3.2/createjs.js"></script>
+    <script type="text/javascript" src="https://zimjs.org/cdn/cat/00/zim.js"></script>
+
+    <script type="text/javascript" src="js/taskLibrary.js"></script>
+    <script type="text/javascript" src="js/globalVariables.js"></script>
+    <script type="text/javascript" src="js/piece.js"></script>
+    <script type="text/javascript" src="js/gameMechanics.js"></script>
+    <script type="text/javascript" src="js/choiceField.js"></script>
+    <script type="text/javascript" src="js/modalDisplay.js"></script>
+    <script type="text/javascript" src="js/userActions.js"></script>
+    <script type="text/javascript" src="js/gameLogic.js"></script>
+    <script type="text/javascript">
+        function init() {
+            resetForms();
+            initGame();
+        }
+    </script>
+</head>
+
+<body onload="init()">
+
+<div style="width:1200px; margin:auto">
+    <p><span id="hello"></span><button onclick="changeUser()" style="width: 160px; margin-left:20px">Use another profile</button></p>
+</div>
+
+<div id="welcome">
+    <div id="welcomeContent">
+        <div id="welcomeIntro">
+            <h2>Welcome!</h2>
+            <p> Welcome to tangram online game. Below the game panel on the next page you will find a few instructions how to play.
+                You can play this game anonymously or create and use individual profile, which will allow you to remember which puzzles you already solved.
+            </p>
+            <p>What do you want to do?</p>
+        </div>
+        <div id="saveResultsIntro">
+            <p>How do you want to save your results?</p>
+        </div>
+
+        <span class="arrow" id="useProfileArrow">&#9662; </span><a href="#" onclick="displayUseProfileForm()">Use existing profile</a>
+        <div id="useProfileDiv" class="slide expand">
+            <p></p>
+            <form id="useProfileForm">
+                <p class="table-row">
+                    <label class="table-cell col1">username:</label>
+                    <input type="text" id="useUname" class="table-cell" />
+                </p>
+            </form>
+            <p><input type="button" class="welcomeBtn" id="anotherId" value="Use profile" onclick="greetExistingUser(this)" /></p>
+        </div>
+        <div id="chooseOfManyDiv" class="slide">
+            <p id="userList"></p>
+        </div>
+
+        <span class="arrow" id="createProfileArrow">&#9656; </span><a href="#" onclick="displayCreateProfileForm()">Create new profile</a>
+        <div id="createProfileDiv" class="slide">
+            <p> Choose your username and keyword. Keyword is not secret, like password. Its purpose is to assert
+                that your profile is unique even if there is another user with the same username. Choose some meaningful word.
+                If there are more users with the same username, you will be asked to choose your keyword from the displayed list
+                - you should be able to recognize it even if you don't memorize it. </p>
+            <p>The form accepts letters and numbers, both username and keyword must consist of at least 3 characters.
+            </p>
+            <form id="createProfileForm">
+                <p class="table-row">
+                    <label class="table-cell col1">username:</label>
+                    <input type="text" id="createUname" class="table-cell" /><br><br>
+                </p>
+                <p class="table-row">
+                    <label class="table-cell col1">keyword:</label>
+                    <input type="text" id="kword" class="table-cell" />
+                </p>
+            </form>
+            <p><input type="button" class="welcomeBtn" value="Create profile" onclick="greetNewUser(this)" /></p>
+        </div>
+
+        <span class="arrow" id="useAnonArrow">&#9656; </span><a href="#" id="displayUseAnonText" onclick="displayUseAnonButton()">Play as anonymous user</a>
+        <div id="useAnonDiv" class="slide">
+            <p><input type="button" class="welcomeBtn" value="Play as anonymous user" onclick="greetAnonUser(this)" /></p>
+        </div>
+        <p></p>
+    </div>
+</div>
+
+<div id="container" style="width:1200px; height:1020px; margin:auto; border: solid 1px">
+    <button id="reset" style="width: 120px">Reset</button>
+    <button id="solved" style="width: 120px">Solved</button>
+    <button id="save" style="width: 120px">Save results</button>
+    <canvas id="canvas"></canvas>
+    <p><b>How to play:</b></p>
+    <ul>
+        <li>Choose task by clicking shape thumbnail at the bottom gray panel - full-sized shape will be displayed in the main gray field.</li>
+        <li>Drag and drop colored pieces using mouse. Use keyboard arrows to rotate and flip them.</li>
+        <li>Thumbnails of the solved puzzles are grayed. You can choose solved puzzle to play it again.</li>
+        <li>If you are using your user profile the puzzles you solved will be saved automatically.</li>
+        <li>If you play anonymously you can still save your results by clicking Save button. You will be asked to either choose an existing profile or create a new one.</li>
+    </ul>
+</div>
+
+</body>
+</html>
+

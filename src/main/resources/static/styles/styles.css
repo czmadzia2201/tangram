@@ -1,0 +1,81 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Modal background */
+#welcome {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+#welcomeContent {
+    background-color: white;
+    margin: auto;
+    padding: 20px;
+    width: 600px;
+}
+
+#saveResultsIntro {
+    display: none;
+}
+
+a {
+    color: darkgray;
+}
+
+.welcomeBtn {
+    width: 200px;
+}
+
+#createProfileForm, #useProfileForm {
+    display: table;
+}
+
+.arrow {
+    color: darkgray;
+    font-size: 10;
+}
+
+.slide {
+    max-height: 0px;
+    overflow: hidden;
+    transition: all .5s ease;
+}
+
+.expand {
+    max-height: 400px;
+}
+
+.table-cell {
+    display: table-cell;
+}
+
+.col1 {
+    width: 150px;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.textBtn {
+  border: none;
+  background-color: #eee;
+  padding: 10px;
+  margin-bottom:20px;
+  margin-left:5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.textBtn:hover {
+    background: lightgray;
+}
