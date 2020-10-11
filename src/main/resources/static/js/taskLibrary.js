@@ -76,18 +76,4 @@ var taskAllowedPoints = new Map([
     //["t012", [[p(),p(),p(),p(),p(),p(),p(),p()]]],
 ]);
 
-function flattenTaskDistances(key) {
-    var flatTaskDistances = new Map();
-    flatTaskDistances.set(key, concatDistanceArrays(taskShapeDistances.get(key)));
-    return flatTaskDistances;
-}
-
-function concatDistanceArrays(inputArray) {
-    return (inputArray.length == 2) ? inputArray[0].concat(inputArray[1]) : inputArray[0];
-}
-
-function p(x,y) {
-    return new createjs.Point(x,y);
-}
-
 

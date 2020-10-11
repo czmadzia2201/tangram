@@ -1,6 +1,9 @@
 class GameMechanics {
     constructor() {
         this.started = false;
+        this.snapPoints = new Map();
+        this.initShapeDistances = new Map();
+        this.shapeDistances = new Map();
     }
 
     drag(evt) {
@@ -9,17 +12,17 @@ class GameMechanics {
         evt.target.x = evt.stageX;
         evt.target.y = evt.stageY;
         this.snap(evt);
-        snapPoints.set(evt.target.name, this.calculateShapeVerticles(evt.target.name, shapeDistances));
+        this.snapPoints.set(evt.target.name, this.calculateShapeVerticles(evt.target.name, this.shapeDistances));
         stage.update();
     }
 
     snap(evt) {
-        var distances = shapeDistances.get(evt.target.name);
+        var distances = this.shapeDistances.get(evt.target.name);
         var snapDistance = 10;
 
         var flatSnapPoints = [];
-        for(var shapeName of snapPoints.keys()) {
-            flatSnapPoints = flatSnapPoints.concat(snapPoints.get(shapeName));
+        for(var shapeName of this.snapPoints.keys()) {
+            flatSnapPoints = flatSnapPoints.concat(this.snapPoints.get(shapeName));
         }
 
         for(var i = 0; i < flatSnapPoints.length; i++) {
@@ -47,20 +50,20 @@ class GameMechanics {
     rotate(shape, angle) {
         shape.rotation += angle;
         this.updateShapeDistances(shape);
-        snapPoints.set(shape.name, this.calculateShapeVerticles(shape.name, shapeDistances));
+        this.snapPoints.set(shape.name, this.calculateShapeVerticles(shape.name, this.shapeDistances));
         stage.update();
     }
 
     flip(shape) {
         shape.scaleX = -1*shape.scaleX;
         this.updateShapeDistances(shape);
-        snapPoints.set(shape.name, this.calculateShapeVerticles(shape.name, shapeDistances));
+        this.snapPoints.set(shape.name, this.calculateShapeVerticles(shape.name, this.shapeDistances));
         stage.update();
     }
 
     calculateSnapPoints() {
-        for(var shapeName of shapeDistances.keys()) {
-            snapPoints.set(shapeName, this.calculateShapeVerticles(shapeName, shapeDistances));
+        for(var shapeName of this.shapeDistances.keys()) {
+            this.snapPoints.set(shapeName, this.calculateShapeVerticles(shapeName, this.shapeDistances));
         }
     }
 
@@ -74,14 +77,14 @@ class GameMechanics {
     }
 
     updateShapeDistances(shape) {
-        var distances = initShapeDistances.get(shape.name);
+        var distances = this.initShapeDistances.get(shape.name);
         var newDistances = []
         for(var i = 0; i < distances.length; i++) {
             var newX = (distances[i].x * shape.scaleX) * this.getCosinus(shape) + distances[i].y * this.getSinus(shape);
             var newY = distances[i].y * this.getCosinus(shape) - (distances[i].x * shape.scaleX) * this.getSinus(shape);
             newDistances[i] = p(newX, newY);
         }
-        shapeDistances.set(shape.name, newDistances);
+        this.shapeDistances.set(shape.name, newDistances);
     }
 
     getSinus(shape) {
@@ -96,6 +99,36 @@ class GameMechanics {
         return angle*(Math.PI/180);
     }
 
+    keyEvents() {
+        const ARROW_KEY_LEFT = 37;
+        const ARROW_KEY_RIGHT = 39;
+        const ARROW_KEY_UP = 38;
+        var localGameMechanics = this;
+        document.onkeydown = function(evt) {
+            if(marked==null) {
+                return;
+            }
+            switch (evt.keyCode) {
+                case ARROW_KEY_LEFT:
+                    localGameMechanics.rotate(marked, -45);
+                    break;
+                case ARROW_KEY_RIGHT:
+                    localGameMechanics.rotate(marked, 45);
+                    break;
+                case ARROW_KEY_UP:
+                    localGameMechanics.flip(marked);
+                    break;
+                case 40:
+                    debug();
+            }
+        }
+    }
+
 }
 
-var gameMechanics = new GameMechanics();
+function debug() {
+    var sTIt = solvedTasks.values();
+    alert(
+        "Check user:\nid: " + id + "\nusername: " + username + "\nkeyword: " + keyword + "\nsolvedTasks: " + Array.from(solvedTasks)
+    );
+}

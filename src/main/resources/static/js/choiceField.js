@@ -14,9 +14,10 @@ class ChoiceField {
         const choiceFieldX = SIZE;
         const choiceFieldY = 12*SIZE;
 
+        var localThumbContainer = this.thumbContainer;
         var frame = new Rectangle(this.choiceFieldWidth, this.choiceFieldHeight).addTo(stage).pos(choiceFieldX/2, choiceFieldY/2);
-        this.thumbContainer.addTo(stage).pos(choiceFieldX/2, choiceFieldY/2);
-        this.thumbContainer.setMask(frame);
+        localThumbContainer.addTo(stage).pos(choiceFieldX/2, choiceFieldY/2);
+        localThumbContainer.setMask(frame);
 
         var button = new Button({
             width:scrollBarWidth,
@@ -45,7 +46,7 @@ class ChoiceField {
             .pos(this.choiceFieldWidth-scrollBarWidth, choiceFieldY/2);
 
         scrollbar.on("change", function() {
-            choiceField.thumbContainer.y = frame.y + scrollbar.currentValue - scrollbar.max;
+            localThumbContainer.y = frame.y + scrollbar.currentValue - scrollbar.max;
         });
 
         this.fillThumbContainer();
@@ -61,7 +62,7 @@ class ChoiceField {
 
         for(var i = 0; i < this.taskKeys.length; i++) {
             var fill = (solvedTasks.has(this.taskKeys[i])) ? "darkGray" : "white"
-            addThumbNail(this.taskKeys[i]+"Thumb", thumbStartX*SIZE, thumbStartY*SIZE, fill);
+            this.addThumbNail(this.taskKeys[i]+"Thumb", thumbStartX*SIZE, thumbStartY*SIZE, fill);
             thumbStartX += 1.75;
             if((i+1)%this.thumbRowWidth==0) {
                 thumbStartY += 2;
@@ -70,6 +71,16 @@ class ChoiceField {
         }
         stage.update();
     }
-}
 
-var choiceField = new ChoiceField();
+    addThumbNail(name, x, y, fill) {
+        var points = taskShapeDistances.get(name.replace("Thumb", ""));
+        var shape = GameManager.addShape(name, points, "black", fill);
+        shape.x = x;
+        shape.y = y;
+        shape.scaleX = 0.2;
+        shape.scaleY = 0.2;
+        shape.on("click", chooseTask);
+        this.thumbContainer.addChild(shape);
+    }
+
+}

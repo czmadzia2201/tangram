@@ -5,6 +5,9 @@ var keyword;
 var solvedTasks = new Set();
 const errorMessage = "Ups, something went wrong. Check network connection and try again. If error persists contact game admin.";
 
+var gameManager = new GameManager();
+var modalDisplay = new ModalDisplay();
+
 function getUser(isValid) {
     $.ajax({
         type: "POST",
@@ -73,7 +76,7 @@ function onGetUserSuccess(isValid) {
     } else {
         isValid = false;
         document.getElementById("userList").innerHTML = "Which " + userData[0].username + " you are? Click on your keyword, to make the choice.";
-        addButtons();
+        modalDisplay.addButtons();
         document.getElementById("chooseOfManyDiv").classList.toggle("expand");
     }
     return isValid;
@@ -81,7 +84,8 @@ function onGetUserSuccess(isValid) {
 
 function chooseUser(index) {
     setUserValues(index);
-    closeModalAndGreet(username);
+    modalDisplay.closeModalAndGreet(username);
+    gameManager.choiceField.fillThumbContainer();
 }
 
 function setUserValues(index) {
@@ -97,10 +101,6 @@ function setUserValues(index) {
 function mergeSolved(userSolved, sessionSolved) {
     sessionSolved.forEach(elem => userSolved.add(elem));
     return userSolved;
-}
-
-function greetExistingChosen() {
-    closeModalAndGreet(username);
 }
 
 function createUser(isValid) {
@@ -126,8 +126,10 @@ function greetExistingUser(obj) {
     isValid = validate(isValid, "useUname");
     if(isValid && confirmChoice(obj))
         isValid = getUser(isValid);
-    if(isValid)
-        closeModalAndGreet(username);
+    if(isValid) {
+        modalDisplay.closeModalAndGreet(username);
+        gameManager.choiceField.fillThumbContainer();
+    }
 }
 
 function greetNewUser(obj) {
@@ -136,14 +138,18 @@ function greetNewUser(obj) {
     isValid = validate(isValid, "kword");
     if(isValid && confirmChoice(obj))
         isValid = createUser(isValid);
-    if(isValid)
-        closeModalAndGreet(username);
+    if(isValid) {
+        modalDisplay.closeModalAndGreet(username);
+        gameManager.choiceField.fillThumbContainer();
+    }
 }
 
 function greetAnonUser(obj) {
-    if(confirmChoice(obj))
+    if(confirmChoice(obj)) {
         username = "Anonymous user";
-        closeModalAndGreet(username);
+        modalDisplay.closeModalAndGreet(username);
+        gameManager.choiceField.fillThumbContainer();
+    }
 }
 
 function validate(isValid, fieldId) {
@@ -186,18 +192,18 @@ function confirmChoice(obj) {
 }
 
 function markAsSolvedAndSave() {
-    markAsSolved();
+    gameManager.markAsSolved();
     if(id != null)
         updateUser(true);
 }
 
 function changeUser() {
-    if(resetBoard()) {
+    if(gameManager.resetBoard()) {
         username = null;
         keyword = null;
         id = null;
         solvedTasks = new Set();
-        displayWelcome();
+        modalDisplay.displayWelcome();
     }
 }
 
@@ -206,5 +212,5 @@ function saveResults() {
         alert("You currently use " + username + " profile. Your results are being saved automatically. \nIf you want to use another profile click 'Use another profile' button at the top of the page.");
         return;
     }
-    displayWelcome(false);
+    modalDisplay.displayWelcome(false);
 }
