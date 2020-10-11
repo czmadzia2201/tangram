@@ -85,7 +85,7 @@ function onGetUserSuccess(isValid) {
 function chooseUser(index) {
     setUserValues(index);
     modalDisplay.closeModalAndGreet(username);
-    gameManager.choiceField.fillThumbContainer();
+    gameManager.fillThumbContainer();
 }
 
 function setUserValues(index) {
@@ -128,7 +128,7 @@ function greetExistingUser(obj) {
         isValid = getUser(isValid);
     if(isValid) {
         modalDisplay.closeModalAndGreet(username);
-        gameManager.choiceField.fillThumbContainer();
+        gameManager.fillThumbContainer();
     }
 }
 
@@ -140,7 +140,7 @@ function greetNewUser(obj) {
         isValid = createUser(isValid);
     if(isValid) {
         modalDisplay.closeModalAndGreet(username);
-        gameManager.choiceField.fillThumbContainer();
+        gameManager.fillThumbContainer();
     }
 }
 
@@ -148,7 +148,7 @@ function greetAnonUser(obj) {
     if(confirmChoice(obj)) {
         username = "Anonymous user";
         modalDisplay.closeModalAndGreet(username);
-        gameManager.choiceField.fillThumbContainer();
+        gameManager.fillThumbContainer();
     }
 }
 

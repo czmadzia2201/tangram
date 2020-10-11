@@ -4,6 +4,7 @@ class GameMechanics {
         this.snapPoints = new Map();
         this.initShapeDistances = new Map();
         this.shapeDistances = new Map();
+        this.marked = null;
     }
 
     drag(evt) {
@@ -44,7 +45,7 @@ class GameMechanics {
     mark(evt) {
         stage.setChildIndex(evt.target, stage.getNumChildren()-1);
         stage.update();
-        marked = evt.target;
+        this.marked = evt.target;
     }
 
     rotate(shape, angle) {
@@ -105,18 +106,18 @@ class GameMechanics {
         const ARROW_KEY_UP = 38;
         var localGameMechanics = this;
         document.onkeydown = function(evt) {
-            if(marked==null) {
+            if(localGameMechanics.marked==null) {
                 return;
             }
             switch (evt.keyCode) {
                 case ARROW_KEY_LEFT:
-                    localGameMechanics.rotate(marked, -45);
+                    localGameMechanics.rotate(localGameMechanics.marked, -45);
                     break;
                 case ARROW_KEY_RIGHT:
-                    localGameMechanics.rotate(marked, 45);
+                    localGameMechanics.rotate(localGameMechanics.marked, 45);
                     break;
                 case ARROW_KEY_UP:
-                    localGameMechanics.flip(marked);
+                    localGameMechanics.flip(localGameMechanics.marked);
                     break;
                 case 40:
                     debug();
