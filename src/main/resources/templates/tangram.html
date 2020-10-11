@@ -15,9 +15,10 @@
     <script type="text/javascript" src="js/modalDisplay.js"></script>
     <script type="text/javascript" src="js/userActions.js"></script>
     <script type="text/javascript">
+        var userActions = new UserActions();
         function init() {
-            modalDisplay.resetForms();
-            gameManager.initGame();
+            userActions.modalDisplay.resetForms();
+            userActions.gameManager.initGame();
         }
     </script>
 </head>
@@ -25,7 +26,7 @@
 <body onload="init()">
 
 <div style="width:1200px; margin:auto">
-    <p><span id="hello"></span><button onclick="changeUser()" style="width: 160px; margin-left:20px">Use another profile</button></p>
+    <p><span id="hello"></span><button onclick="userActions.changeUser()" style="width: 160px; margin-left:20px">Use another profile</button></p>
 </div>
 
 <div id="welcome">
@@ -41,7 +42,7 @@
             <p>How do you want to save your results?</p>
         </div>
 
-        <span class="arrow" id="useProfileArrow">&#9662; </span><a href="#" onclick="modalDisplay.displayUseProfileForm()">Use existing profile</a>
+        <span class="arrow" id="useProfileArrow">&#9662; </span><a href="#" onclick="userActions.modalDisplay.displayUseProfileForm()">Use existing profile</a>
         <div id="useProfileDiv" class="slide expand">
             <p></p>
             <form id="useProfileForm">
@@ -50,13 +51,13 @@
                     <input type="text" id="useUname" class="table-cell" />
                 </p>
             </form>
-            <p><input type="button" class="welcomeBtn" id="anotherId" value="Use profile" onclick="greetExistingUser(this)" /></p>
+            <p><input type="button" class="welcomeBtn" id="anotherId" value="Use profile" onclick="userActions.greetExistingUser(this)" /></p>
         </div>
         <div id="chooseOfManyDiv" class="slide">
             <p id="userList"></p>
         </div>
 
-        <span class="arrow" id="createProfileArrow">&#9656; </span><a href="#" onclick="modalDisplay.displayCreateProfileForm()">Create new profile</a>
+        <span class="arrow" id="createProfileArrow">&#9656; </span><a href="#" onclick="userActions.modalDisplay.displayCreateProfileForm()">Create new profile</a>
         <div id="createProfileDiv" class="slide">
             <p> Choose your username and keyword. Keyword is not secret, like password. Its purpose is to assert
                 that your profile is unique even if there is another user with the same username. Choose some meaningful word.
@@ -74,21 +75,21 @@
                     <input type="text" id="kword" class="table-cell" />
                 </p>
             </form>
-            <p><input type="button" class="welcomeBtn" value="Create profile" onclick="greetNewUser(this)" /></p>
+            <p><input type="button" class="welcomeBtn" value="Create profile" onclick="userActions.greetNewUser(this)" /></p>
         </div>
 
-        <span class="arrow" id="useAnonArrow">&#9656; </span><a href="#" id="displayUseAnonText" onclick="modalDisplay.displayUseAnonButton()">Play as anonymous user</a>
+        <span class="arrow" id="useAnonArrow">&#9656; </span><a href="#" id="displayUseAnonText" onclick="userActions.modalDisplay.displayUseAnonButton()">Play as anonymous user</a>
         <div id="useAnonDiv" class="slide">
-            <p><input type="button" class="welcomeBtn" value="Play as anonymous user" onclick="greetAnonUser(this)" /></p>
+            <p><input type="button" class="welcomeBtn" value="Play as anonymous user" onclick="userActions.greetAnonUser(this)" /></p>
         </div>
         <p></p>
     </div>
 </div>
 
 <div id="container" style="width:1200px; height:1020px; margin:auto; border: solid 1px">
-    <button id="reset" onclick="gameManager.resetBoard()" style="width: 120px">Reset</button>
-    <button id="solved" onclick="markAsSolvedAndSave()" style="width: 120px">Solved</button>
-    <button id="save" onclick="saveResults()" style="width: 120px">Save results</button>
+    <button id="reset" onclick="userActions.gameManager.resetBoard()" style="width: 120px">Reset</button>
+    <button id="solved" onclick="userActions.markAsSolvedAndSave()" style="width: 120px">Solved</button>
+    <button id="save" onclick="userActions.saveResults()" style="width: 120px">Save results</button>
     <canvas id="canvas"></canvas>
     <p><b>How to play:</b></p>
     <ul>

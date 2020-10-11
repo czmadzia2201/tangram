@@ -8,7 +8,7 @@ class ModalDisplay {
             var btn = document.createElement("button");
             btn.innerHTML = userData[i].keyword;
             btn.classList.add("textBtn");
-            btn.setAttribute("onclick", "chooseUser(" + i + ")");
+            btn.setAttribute("onclick", "userActions.chooseUser(" + i + ")");
             document.getElementById("chooseOfManyDiv").appendChild(btn);
         }
     }

@@ -128,8 +128,8 @@ class GameMechanics {
 }
 
 function debug() {
-    var sTIt = solvedTasks.values();
+    var sTIt = userActions.solvedTasks.values();
     alert(
-        "Check user:\nid: " + id + "\nusername: " + username + "\nkeyword: " + keyword + "\nsolvedTasks: " + Array.from(solvedTasks)
+        "Check user:\nid: " + id + "\nusername: " + username + "\nkeyword: " + keyword + "\nsolvedTasks: " + Array.from(userActions.solvedTasks)
     );
 }
