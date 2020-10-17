@@ -4,7 +4,9 @@ class GameManager {
     taskStartX = 12.5*SIZE;
     taskStartY = 6*SIZE;
 
+    solvedTasks = new Set();
     taskName = null;
+
     pieces = [
         new Piece("skyLeft", -1.25, -1.25, [[p(1.25,-0.75),p(-0.75,-0.75),p(-0.75,1.25)]], "blue"),
         new Piece("skyRight", 1.25, -1.25, [[p(-1.25,-0.75),p(0.75,-0.75),p(0.75,1.25)]], "blue"),
@@ -167,7 +169,7 @@ class GameManager {
         var thumbStartY = 1;
 
         for(var i = 0; i < this.taskKeys.length; i++) {
-            var fill = (solvedTasks.has(this.taskKeys[i])) ? "darkGray" : "white"
+            var fill = (this.solvedTasks.has(this.taskKeys[i])) ? "darkGray" : "white"
             this.addThumbNail(this.taskKeys[i]+"Thumb", thumbStartX*SIZE, thumbStartY*SIZE, fill);
             thumbStartX += 1.75;
             if((i+1)%this.thumbRowWidth==0) {
@@ -208,7 +210,7 @@ class GameManager {
         if(this.taskName==null)
             return;
         this.gameMechanics.started = false;
-        solvedTasks.add(this.taskName);
+        this.solvedTasks.add(this.taskName);
         this.colorThumbNailSolved(this.taskName);
         stage.update();
     }

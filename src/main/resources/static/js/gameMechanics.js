@@ -127,6 +127,6 @@ class GameMechanics {
 
 function debug() {
     alert(
-        "Check user:\nid: " + userActions.userLocal.id + "\nusername: " + userActions.userLocal.username + "\nkeyword: " + userActions.userLocal.keyword + "\nsolvedTasks: " + Array.from(userActions.solvedTasks)
+        "Check user:\nid: " + userActions.userLocal.id + "\nusername: " + userActions.userLocal.username + "\nkeyword: " + userActions.userLocal.keyword + "\nsolvedTasks: " + Array.from(userActions.userLocal.solvedTasks)
     );
 }

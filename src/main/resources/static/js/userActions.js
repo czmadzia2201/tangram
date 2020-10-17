@@ -49,8 +49,7 @@ class UserActions {
             cache: false,
             timeout: 600000,
             success: function(data) {
-                this.userLocal = new User(data.id, data.username, data.keyword);
-                solvedTasks = new Set(data.solvedTasks);
+                this.userLocal = new User(data.id, data.username, data.keyword, new Set(data.solvedTasks));
             },
             complete: function(xhr) {
                 if(xhr.status==500 && xhr.responseJSON.message.includes("ConstraintViolationException")) {
@@ -88,9 +87,9 @@ class UserActions {
     }
 
     setUserValues(index) {
-        var areSolved = (solvedTasks.size > 0) ? true : false;
-        this.userLocal = new User(this.userData[index].id, this.userData[index].username, this.userData[index].keyword);
-        solvedTasks = this.mergeSolved(new Set(this.userData[index].solvedTasks), solvedTasks);
+        var areSolved = (this.gameManager.solvedTasks.size > 0) ? true : false;
+        this.gameManager.solvedTasks = this.mergeSolved(new Set(this.userData[index].solvedTasks), this.gameManager.solvedTasks);
+        this.userLocal = new User(this.userData[index].id, this.userData[index].username, this.userData[index].keyword, this.gameManager.solvedTasks);
         if(areSolved)
             this.updateUser(true);
     }
@@ -104,7 +103,7 @@ class UserActions {
         var user = {};
         user["username"] = $("#createUname").val();
         user["keyword"] = $("#kword").val();
-        user["solvedTasks"] = Array.from(solvedTasks);
+        user["solvedTasks"] = Array.from(this.gameManager.solvedTasks);
         isValid = this.saveUser(user, isValid);
         return isValid;
     }
@@ -113,7 +112,7 @@ class UserActions {
         var user = {};
         user["username"] = this.userLocal.username;
         user["keyword"] = this.userLocal.keyword;
-        user["solvedTasks"] = Array.from(solvedTasks);
+        user["solvedTasks"] = Array.from(this.gameManager.solvedTasks);
         user["id"] = this.userLocal.id;
         this.saveUser(user, isValid);
     }
@@ -198,7 +197,7 @@ class UserActions {
         if(this.gameManager.resetBoard()) {
             this.userLocal = null;
             this.anonUsername = null;
-            solvedTasks = new Set();
+            this.gameManager.solvedTasks = new Set();
             this.modalDisplay.displayWelcome();
         }
     }

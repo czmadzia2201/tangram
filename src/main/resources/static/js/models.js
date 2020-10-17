@@ -9,10 +9,10 @@ class Piece {
 }
 
 class User {
-    constructor(id, username, keyword) {
+    constructor(id, username, keyword, solvedTasks) {
         this.id = id;
         this.username = username;
         this.keyword = keyword;
-//        this.solvedTasks = solvedTasks;
+        this.solvedTasks = solvedTasks;
     }
 }
