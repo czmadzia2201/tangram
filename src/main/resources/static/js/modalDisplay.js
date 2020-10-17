@@ -1,6 +1,6 @@
 class ModalDisplay {
 
-    addButtons() {
+    addButtons(userData) {
         document.querySelectorAll(".textBtn").forEach(function(a) {
           a.remove()
         })

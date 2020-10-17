@@ -2,6 +2,9 @@ class UserActions {
     errorMessage = "Ups, something went wrong. Check network connection and try again. If error persists contact game admin.";
     gameManager = new GameManager();
     modalDisplay = new ModalDisplay();
+    userData = null;
+    userLocal = null;
+    anonUsername = null;
 
     getUser(isValid) {
         var localUserActions = this;
@@ -16,7 +19,6 @@ class UserActions {
             cache: false,
             timeout: 600000,
             success: function(data) {
-                userData = data;
                 isValid = localUserActions.onGetUserSuccess(data, isValid);
             },
             complete: function(xhr) {
@@ -47,9 +49,7 @@ class UserActions {
             cache: false,
             timeout: 600000,
             success: function(data) {
-                id = data.id;
-                username = data.username;
-                keyword = data.keyword;
+                this.userLocal = new User(data.id, data.username, data.keyword);
                 solvedTasks = new Set(data.solvedTasks);
             },
             complete: function(xhr) {
@@ -68,13 +68,14 @@ class UserActions {
         return isValid;
     }
 
-    onGetUserSuccess(isValid) {
-        if(userData.length==1) {
+    onGetUserSuccess(data, isValid) {
+        this.userData = data;
+        if(this.userData.length==1) {
             this.setUserValues(0);
         } else {
             isValid = false;
-            document.getElementById("userList").innerHTML = "Which " + userData[0].username + " you are? Click on your keyword, to make the choice.";
-            this.modalDisplay.addButtons();
+            document.getElementById("userList").innerHTML = "Which " + this.userData[0].username + " you are? Click on your keyword, to make the choice.";
+            this.modalDisplay.addButtons(this.userData);
             document.getElementById("chooseOfManyDiv").classList.toggle("expand");
         }
         return isValid;
@@ -82,16 +83,14 @@ class UserActions {
 
     chooseUser(index) {
         this.setUserValues(index);
-        this.modalDisplay.closeModalAndGreet(username);
+        this.modalDisplay.closeModalAndGreet(this.userLocal.username);
         this.gameManager.fillThumbContainer();
     }
 
     setUserValues(index) {
         var areSolved = (solvedTasks.size > 0) ? true : false;
-        id = userData[index].id;
-        username = userData[index].username;
-        keyword = userData[index].keyword;
-        solvedTasks = this.mergeSolved(new Set(userData[index].solvedTasks), solvedTasks);
+        this.userLocal = new User(this.userData[index].id, this.userData[index].username, this.userData[index].keyword);
+        solvedTasks = this.mergeSolved(new Set(this.userData[index].solvedTasks), solvedTasks);
         if(areSolved)
             this.updateUser(true);
     }
@@ -112,10 +111,10 @@ class UserActions {
 
     updateUser(isValid) {
         var user = {};
-        user["username"] = username;
-        user["keyword"] = keyword;
+        user["username"] = this.userLocal.username;
+        user["keyword"] = this.userLocal.keyword;
         user["solvedTasks"] = Array.from(solvedTasks);
-        user["id"] = id;
+        user["id"] = this.userLocal.id;
         this.saveUser(user, isValid);
     }
 
@@ -125,7 +124,7 @@ class UserActions {
         if(isValid && this.confirmChoice(obj))
             isValid = this.getUser(isValid);
         if(isValid) {
-            this.modalDisplay.closeModalAndGreet(username);
+            this.modalDisplay.closeModalAndGreet(this.userLocal.username);
             this.gameManager.fillThumbContainer();
         }
     }
@@ -137,15 +136,15 @@ class UserActions {
         if(isValid && this.confirmChoice(obj))
             isValid = this.createUser(isValid);
         if(isValid) {
-            this.modalDisplay.closeModalAndGreet(username);
+            this.modalDisplay.closeModalAndGreet(this.userLocal.username);
             this.gameManager.fillThumbContainer();
         }
     }
 
     greetAnonUser(obj) {
         if(this.confirmChoice(obj)) {
-            username = "Anonymous user";
-            this.modalDisplay.closeModalAndGreet(username);
+            this.anonUsername = "Anonymous user";
+            this.modalDisplay.closeModalAndGreet(this.anonUsername);
             this.gameManager.fillThumbContainer();
         }
     }
@@ -191,23 +190,22 @@ class UserActions {
 
     markAsSolvedAndSave() {
         this.gameManager.markAsSolved();
-        if(id != null)
+        if(this.userLocal != null)
             this.updateUser(true);
     }
 
     changeUser() {
         if(this.gameManager.resetBoard()) {
-            username = null;
-            keyword = null;
-            id = null;
+            this.userLocal = null;
+            this.anonUsername = null;
             solvedTasks = new Set();
             this.modalDisplay.displayWelcome();
         }
     }
 
     saveResults() {
-        if(username!="Anonymous user") {
-            alert("You currently use " + username + " profile. Your results are being saved automatically. \nIf you want to use another profile click 'Use another profile' button at the top of the page.");
+        if(this.anonUsername!="Anonymous user") {
+            alert("You currently use " + this.userLocal.username + " profile. Your results are being saved automatically. \nIf you want to use another profile click 'Use another profile' button at the top of the page.");
             return;
         }
         this.modalDisplay.displayWelcome(false);

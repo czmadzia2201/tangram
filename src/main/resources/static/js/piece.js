@@ -7,3 +7,12 @@ class Piece {
         this.color = color;
     }
 }
+
+class User {
+    constructor(id, username, keyword) {
+        this.id = id;
+        this.username = username;
+        this.keyword = keyword;
+//        this.solvedTasks = solvedTasks;
+    }
+}
