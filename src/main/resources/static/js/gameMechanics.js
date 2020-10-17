@@ -1,11 +1,9 @@
 class GameMechanics {
-    constructor() {
-        this.started = false;
-        this.snapPoints = new Map();
-        this.initShapeDistances = new Map();
-        this.shapeDistances = new Map();
-        this.marked = null;
-    }
+    started = false;
+    snapPoints = new Map();
+    initShapeDistances = new Map();
+    shapeDistances = new Map();
+    marked = null;
 
     drag(evt) {
         this.started = true;

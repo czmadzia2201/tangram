@@ -1,31 +1,29 @@
 class GameManager {
-    constructor() {
-        this.pieceStartX = 3*SIZE;
-        this.pieceStartY = 3*SIZE;
-        this.taskStartX = 12.5*SIZE;
-        this.taskStartY = 6*SIZE;
+    pieceStartX = 3*SIZE;
+    pieceStartY = 3*SIZE;
+    taskStartX = 12.5*SIZE;
+    taskStartY = 6*SIZE;
 
-        this.taskName = null;
-        this.pieces = [
-            new Piece("skyLeft", -1.25, -1.25, [[p(1.25,-0.75),p(-0.75,-0.75),p(-0.75,1.25)]], "blue"),
-            new Piece("skyRight", 1.25, -1.25, [[p(-1.25,-0.75),p(0.75,-0.75),p(0.75,1.25)]], "blue"),
-            new Piece("roofSmall", 1.5, 0.5, [[p(0.5,-0.5),p(-0.5,-1.5),p(-1.5,-0.5),p(0.5,1.5)]], "orange"),
-            new Piece("roofBig", -1, 0, [[p(-1,-0),p(1,-2),p(2,-1),p(-1,2)]], "darkorange"),
-            new Piece("house", 0, 1.5, [[p(0,-1.5),p(1,-0.5),p(1,1.5),p(-1,1.5),p(-1,-0.5)]], "red"),
-            new Piece("bushLeft", -1.5, 2, [[p(-0.5,0),p(0.5,-1),p(0.5,1),p(-0.5,1)]], "green"),
-            new Piece("bushRight", 1.5, 2, [[p(0.5,0),p(-0.5,-1),p(-0.5,1),p(0.5,1)]], "green"),
-        ]
+    taskName = null;
+    pieces = [
+        new Piece("skyLeft", -1.25, -1.25, [[p(1.25,-0.75),p(-0.75,-0.75),p(-0.75,1.25)]], "blue"),
+        new Piece("skyRight", 1.25, -1.25, [[p(-1.25,-0.75),p(0.75,-0.75),p(0.75,1.25)]], "blue"),
+        new Piece("roofSmall", 1.5, 0.5, [[p(0.5,-0.5),p(-0.5,-1.5),p(-1.5,-0.5),p(0.5,1.5)]], "orange"),
+        new Piece("roofBig", -1, 0, [[p(-1,-0),p(1,-2),p(2,-1),p(-1,2)]], "darkorange"),
+        new Piece("house", 0, 1.5, [[p(0,-1.5),p(1,-0.5),p(1,1.5),p(-1,1.5),p(-1,-0.5)]], "red"),
+        new Piece("bushLeft", -1.5, 2, [[p(-0.5,0),p(0.5,-1),p(0.5,1),p(-0.5,1)]], "green"),
+        new Piece("bushRight", 1.5, 2, [[p(0.5,0),p(-0.5,-1),p(-0.5,1),p(0.5,1)]], "green"),
+    ]
 
-        this.thumbContainer = new Container();
-        this.thumbRowWidth = 10;
-        this.choiceFieldWidth = 18*SIZE;
-        this.choiceFieldHeight = 4*SIZE;
-        this.taskKeys = Array.from(taskShapeDistances.keys());
-        this.rowCount = Math.ceil(this.taskKeys.length/this.thumbRowWidth);
-        this.scrolledHeight = this.choiceFieldHeight*(this.rowCount/2);
+    thumbContainer = new Container();
+    thumbRowWidth = 10;
+    choiceFieldWidth = 18*SIZE;
+    choiceFieldHeight = 4*SIZE;
+    taskKeys = Array.from(taskShapeDistances.keys());
+    rowCount = Math.ceil(this.taskKeys.length/this.thumbRowWidth);
+    scrolledHeight = this.choiceFieldHeight*(this.rowCount/2);
 
-        this.gameMechanics = new GameMechanics();
-    }
+    gameMechanics = new GameMechanics();
 
     initGame() {
         var canvas = document.getElementsByTagName('canvas')[0];

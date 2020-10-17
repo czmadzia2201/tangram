@@ -1,9 +1,7 @@
 class UserActions {
-    constructor() {
-        this.errorMessage = "Ups, something went wrong. Check network connection and try again. If error persists contact game admin.";
-        this.gameManager = new GameManager();
-        this.modalDisplay = new ModalDisplay();
-    }
+    errorMessage = "Ups, something went wrong. Check network connection and try again. If error persists contact game admin.";
+    gameManager = new GameManager();
+    modalDisplay = new ModalDisplay();
 
     getUser(isValid) {
         var localUserActions = this;
