@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/taskLibrary.js"></script>
     <script type="text/javascript" src="js/models.js"></script>
     <script type="text/javascript" src="js/gameMechanics.js"></script>
+    <script type="text/javascript" src="js/solutionChecker.js"></script>
     <script type="text/javascript" src="js/gameManager.js"></script>
     <script type="text/javascript" src="js/modalDisplay.js"></script>
     <script type="text/javascript" src="js/userActions.js"></script>
@@ -87,9 +88,9 @@
 </div>
 
 <div id="container" style="width:1200px; height:1020px; margin:auto; border: solid 1px">
-    <button id="reset" onclick="userActions.gameManager.resetBoard()" style="width: 120px">Reset</button>
-    <button id="solved" onclick="userActions.markAsSolvedAndSave()" style="width: 120px">Solved</button>
-    <button id="save" onclick="userActions.saveResults()" style="width: 120px">Save results</button>
+    <button id="reset" onclick="userActions.gameManager.resetBoard()" style="width: 130px">Reset</button>
+    <button id="check" onclick="userActions.markAsSolvedAndSave()" style="width: 130px">Check solution</button>
+    <button id="save" onclick="userActions.saveResults()" style="width: 130px">Save results</button>
     <canvas id="canvas"></canvas>
     <p><b>How to play:</b></p>
     <ul>

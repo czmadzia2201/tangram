@@ -6,6 +6,7 @@ class GameManager {
 
     solvedTasks = new Set();
     taskName = null;
+    flatTaskVerticles = [];
 
     pieces = [
         new Piece("skyLeft", -1.25, -1.25, [[p(1.25,-0.75),p(-0.75,-0.75),p(-0.75,1.25)]], "blue"),
@@ -26,6 +27,7 @@ class GameManager {
     scrolledHeight = this.choiceFieldHeight*(this.rowCount/2);
 
     gameMechanics = new GameMechanics();
+    solutionChecker = new SolutionChecker();
 
     initGame() {
         var canvas = document.getElementsByTagName('canvas')[0];
@@ -36,13 +38,13 @@ class GameManager {
         var reset = new createjs.DOMElement("reset");
         reset.x = 2*SIZE;
         reset.y = 8.5*SIZE;
-        var solved = new createjs.DOMElement("solved");
-        solved.x = 2*SIZE;
-        solved.y = 9.5*SIZE;
+        var check = new createjs.DOMElement("check");
+        check.x = 2*SIZE;
+        check.y = 9.5*SIZE;
         var save = new createjs.DOMElement("save");
         save.x = 2*SIZE;
         save.y = 10.5*SIZE;
-        stage.addChild(reset, solved, save);
+        stage.addChild(reset, check, save);
 
         var pieceField = new createjs.Shape();
         var taskField = new createjs.Shape();
@@ -209,10 +211,12 @@ class GameManager {
     markAsSolved() {
         if(this.taskName==null)
             return;
-        this.gameMechanics.started = false;
-        this.solvedTasks.add(this.taskName);
-        this.colorThumbNailSolved(this.taskName);
-        stage.update();
+        if(this.solutionChecker.checkSolution(this.taskName, this.flatTaskVerticles, this.gameMechanics.shapeDistances.keys(), this.gameMechanics.snapPoints)) {
+            this.gameMechanics.started = false;
+            this.solvedTasks.add(this.taskName);
+            this.colorThumbNailSolved(this.taskName);
+            stage.update();
+        }
     }
 
     colorThumbNailSolved(taskName) {
@@ -225,15 +229,18 @@ class GameManager {
         if(this.resetBoard()) {
             this.taskName = evt.target.name.replace("Thumb", "");
             this.addTaskShape(this.taskName);
-            this.gameMechanics.snapPoints.set(this.taskName, this.gameMechanics.calculateShapeVerticles(this.taskName, this.flattenTaskDistances(this.taskName)));
+            this.gameMechanics.snapPoints.set(this.taskName, this.flattenTaskDistances(this.taskName));
             stage.update();
         }
     }
 
     flattenTaskDistances(key) {
-        var flatTaskDistances = new Map();
-        flatTaskDistances.set(key, this.concatDistanceArrays(taskShapeDistances.get(key)));
-        return flatTaskDistances;
+        var flatTaskDistances = this.concatDistanceArrays(taskShapeDistances.get(key));
+        this.flatTaskVerticles = [];
+        for(var i = 0; i < flatTaskDistances.length; i++) {
+            this.flatTaskVerticles[i] = p((stage.getChildByName(key).x+flatTaskDistances[i].x*SIZE).toFixed(3), (stage.getChildByName(key).y+flatTaskDistances[i].y*SIZE).toFixed(3));
+        }
+        return this.flatTaskVerticles;
     }
 
     concatDistanceArrays(inputArray) {

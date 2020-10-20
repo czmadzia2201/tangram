@@ -70,7 +70,7 @@ class GameMechanics {
         var currVerticles = [];
         var distances = distDictionary.get(shapeName);
         for(var i = 0; i < distances.length; i++) {
-            currVerticles[i] = p(stage.getChildByName(shapeName).x+distances[i].x*SIZE, stage.getChildByName(shapeName).y+distances[i].y*SIZE);
+            currVerticles[i] = p((stage.getChildByName(shapeName).x+distances[i].x*SIZE).toFixed(3), (stage.getChildByName(shapeName).y+distances[i].y*SIZE).toFixed(3));
         }
         return currVerticles;
     }
@@ -87,11 +87,11 @@ class GameMechanics {
     }
 
     getSinus(shape) {
-        return Math.sin(this.toRadians(-1*(shape.rotation)%360)).toFixed(4)
+        return Math.sin(this.toRadians(-1*(shape.rotation)%360));
     }
 
     getCosinus(shape) {
-        return Math.cos(this.toRadians(-1*(shape.rotation)%360)).toFixed(4)
+        return Math.cos(this.toRadians(-1*(shape.rotation)%360));
     }
 
     toRadians(angle) {
@@ -126,7 +126,20 @@ class GameMechanics {
 }
 
 function debug() {
+//    var localSnapPoints = userActions.gameManager.gameMechanics.snapPoints
+//    var distMap = '';
+//    for(var shapeName of localSnapPoints.keys()) {
+//        distMap = distMap + shapeName + ': ' + localSnapPoints.get(shapeName) + '\n';
+//    }
+    var flatPiecePoints = userActions.gameManager.solutionChecker.flattenPiecePoints(userActions.gameManager.gameMechanics.shapeDistances.keys(), userActions.gameManager.gameMechanics.snapPoints);
+    var allowedPoints = userActions.gameManager.solutionChecker.calculateAllowedVerticles(userActions.gameManager.taskName, userActions.gameManager.flatTaskVerticles);
+
     alert(
-        "Check user:\nid: " + userActions.userLocal.id + "\nusername: " + userActions.userLocal.username + "\nkeyword: " + userActions.userLocal.keyword + "\nsolvedTasks: " + Array.from(userActions.userLocal.solvedTasks)
+        //distMap
+        allowedPoints + '\n\n' + flatPiecePoints
+        //userActions.gameManager.calculateAllowedVerticles(userActions.gameManager.taskName)
+        //userActions.gameManager.flatTaskVerticles //+ '\n\n' + flatPiecePoints
+        //JSON.stringify(flatPiecePoints[0])
+        //"Check user:\nid: " + userActions.userLocal.id + "\nusername: " + userActions.userLocal.username + "\nkeyword: " + userActions.userLocal.keyword + "\nsolvedTasks: " + Array.from(userActions.userLocal.solvedTasks)
     );
 }
