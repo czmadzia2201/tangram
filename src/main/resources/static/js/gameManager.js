@@ -101,7 +101,7 @@ class GameManager {
         shape.y = y;
         shape.scaleX = 0.2;
         shape.scaleY = 0.2;
-        shape.on("click", function(evt) { localGameManager.chooseTask(evt) }); //chooseTask);
+        shape.on("click", function(evt) { localGameManager.chooseTask(evt) });
         this.thumbContainer.addChild(shape);
     }
 
