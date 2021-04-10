@@ -39,6 +39,7 @@ class UserActions {
 
     saveUser(user, isValid) {
         var localErrorMessage = this.errorMessage;
+        var userajax
         $.ajax({
             type: "POST",
             async: false,
@@ -49,7 +50,7 @@ class UserActions {
             cache: false,
             timeout: 600000,
             success: function(data) {
-                this.userLocal = new User(data.id, data.username, data.keyword, new Set(data.solvedTasks));
+                userajax = new User(data.id, data.username, data.keyword, new Set(data.solvedTasks));
             },
             complete: function(xhr) {
                 if(xhr.status==500 && xhr.responseJSON.message.includes("ConstraintViolationException")) {
@@ -64,6 +65,7 @@ class UserActions {
                 console.log("ERROR : ", e);
             }
         });
+        this.userLocal = userajax;
         return isValid;
     }
 
