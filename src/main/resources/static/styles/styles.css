@@ -34,7 +34,7 @@ a {
     width: 200px;
 }
 
-#createProfileForm, #useProfileForm {
+#createProfileForm, #getProfileForm {
     display: table;
 }
 
@@ -50,7 +50,7 @@ a {
 }
 
 .expand {
-    max-height: 400px;
+    max-height: 600px;
 }
 
 .table-cell {
@@ -63,19 +63,4 @@ a {
 
 .table-row {
     display: table-row;
-}
-
-.textBtn {
-  border: none;
-  background-color: #eee;
-  padding: 10px;
-  margin-bottom:20px;
-  margin-left:5px;
-  font-size: 16px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.textBtn:hover {
-    background: lightgray;
 }

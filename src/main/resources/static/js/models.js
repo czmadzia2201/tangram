@@ -9,10 +9,10 @@ class Piece {
 }
 
 class User {
-    constructor(id, username, keyword, solvedTasks) {
+    constructor(id, username, filepath, solvedTasks) {
         this.id = id;
         this.username = username;
-        this.keyword = keyword;
+        this.filepath = filepath;
         this.solvedTasks = solvedTasks;
     }
 }

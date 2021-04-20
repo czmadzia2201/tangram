@@ -1,24 +1,30 @@
 class ModalDisplay {
 
-    addButtons(userData) {
-        document.querySelectorAll(".textBtn").forEach(function(a) {
+    showIcons(userData) {
+        document.querySelectorAll(".clickableIcon").forEach(function(a) {
           a.remove()
         })
         for(var i = 0; i < userData.length; i++) {
-            var btn = document.createElement("button");
-            btn.innerHTML = userData[i].keyword;
-            btn.classList.add("textBtn");
-            btn.setAttribute("onclick", "userActions.chooseUser(" + i + ")");
-            document.getElementById("chooseOfManyDiv").appendChild(btn);
+            var icon = document.createElement("img");
+            icon.setAttribute("src", userData[i].filepath);
+            icon.classList.add("clickableIcon");
+            icon.style.height="120px";
+            icon.style.margin="10px";
+            icon.setAttribute("onclick", "userActions.chooseUser(" + i + ")");
+            icon.addEventListener("mouseover", function(event) {
+                event.target.style.cursor = "pointer";
+            });
+            document.getElementById("chooseOfManyDiv").appendChild(icon);
         }
     }
 
-    closeModalAndGreet(username) {
-        document.getElementById("hello").innerHTML = "Hey, " + username + "!";
+    closeModalAndGreet(user) {
+        document.getElementById("hello").innerHTML = "Hey, " + user.username + "!";
+        document.getElementById("icon").innerHTML = (user.filepath==null) ? "" : "<img height=60px style='margin-left: 20px; vertical-align: middle;' src=" + user.filepath + ">";
         document.getElementById("welcome").style.display = "none";
         this.resetForms();
-        if(!document.getElementById("useProfileDiv").classList.contains("expand"))
-            document.getElementById("useProfileDiv").classList.add("expand");
+        if(!document.getElementById("getProfileDiv").classList.contains("expand"))
+            document.getElementById("getProfileDiv").classList.add("expand");
         document.getElementById("chooseOfManyDiv").classList.remove("expand");
         document.getElementById("createProfileDiv").classList.remove("expand");
         document.getElementById("useAnonDiv").classList.remove("expand");
@@ -26,8 +32,9 @@ class ModalDisplay {
     }
 
     resetForms() {
-        document.getElementById("useProfileForm").reset();
+        document.getElementById("getProfileForm").reset();
         document.getElementById("createProfileForm").reset();
+        document.getElementById("icon-to-be").removeAttribute("src");
     }
 
     displayWelcome(welcome = true) {
@@ -44,16 +51,16 @@ class ModalDisplay {
         document.getElementById("welcome").style.display = "block";
     }
 
-    displayUseProfileForm() {
+    displayGetProfileForm() {
         document.getElementById("createProfileDiv").classList.remove("expand");
-        this.changeArrow("useProfileArrow", "useProfileDiv");
+        this.changeArrow("getProfileArrow", "getProfileDiv");
         document.getElementById("useAnonDiv").classList.remove("expand");
-        document.getElementById("useProfileDiv").classList.toggle("expand");
+        document.getElementById("getProfileDiv").classList.toggle("expand");
         this.changeArrows();
     }
 
     displayCreateProfileForm() {
-        document.getElementById("useProfileDiv").classList.remove("expand");
+        document.getElementById("getProfileDiv").classList.remove("expand");
         this.changeArrow("createProfileArrow", "createProfileDiv");
         document.getElementById("useAnonDiv").classList.remove("expand");
         document.getElementById("chooseOfManyDiv").classList.remove("expand");
@@ -62,7 +69,7 @@ class ModalDisplay {
     }
 
     displayUseAnonButton() {
-        document.getElementById("useProfileDiv").classList.remove("expand");
+        document.getElementById("getProfileDiv").classList.remove("expand");
         document.getElementById("chooseOfManyDiv").classList.remove("expand");
         document.getElementById("createProfileDiv").classList.remove("expand");
         document.getElementById("useAnonDiv").classList.toggle("expand");
@@ -70,7 +77,7 @@ class ModalDisplay {
     }
 
     changeArrows() {
-        this.changeArrow("useProfileArrow", "useProfileDiv");
+        this.changeArrow("getProfileArrow", "getProfileDiv");
         this.changeArrow("createProfileArrow", "createProfileDiv");
         this.changeArrow("useAnonArrow", "useAnonDiv");
     }

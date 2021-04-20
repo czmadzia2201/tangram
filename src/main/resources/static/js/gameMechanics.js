@@ -139,6 +139,6 @@ function debug() {
         allowedPoints + '\n\n' + flatPiecePoints
         //userActions.gameManager.calculateAllowedVerticles(userActions.gameManager.taskName)
         //userActions.gameManager.flatTaskVerticles //+ '\n\n' + flatPiecePoints
-        //"Check user:\nid: " + userActions.userLocal.id + "\nusername: " + userActions.userLocal.username + "\nkeyword: " + userActions.userLocal.keyword + "\nsolvedTasks: " + Array.from(userActions.userLocal.solvedTasks)
+        //"Check user:\nid: " + userActions.jsUser.id + "\nusername: " + userActions.jsUser.username + "\nkeyword: " + userActions.jsUser.keyword + "\nsolvedTasks: " + Array.from(userActions.jsUser.solvedTasks)
     );
 }

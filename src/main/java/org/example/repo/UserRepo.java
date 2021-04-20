@@ -9,6 +9,6 @@ public interface UserRepo extends CrudRepository<User, Integer> {
 
     List<User> findByUsername(String username);
 
-    User findByUsernameAndKeyword(String username, String keyword);
+    User findByUsernameAndFilename(String username, String filename);
 
 }

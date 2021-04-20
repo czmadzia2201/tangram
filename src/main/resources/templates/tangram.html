@@ -26,8 +26,11 @@
 
 <body onload="init()">
 
-<div style="width:1200px; margin:auto">
-    <p><span id="hello"></span><button onclick="userActions.changeUser()" style="width: 160px; margin-left:20px">Use another profile</button></p>
+<div style="width:1200px; line-height:60px; margin:auto">
+    <button onclick="userActions.changeUser()" style="width: 160px; margin-right:20px">Use another profile</button>
+    <div style="float:right">
+        <span id="hello"></span><span id="icon"></span>
+    </div>
 </div>
 
 <div id="welcome">
@@ -43,13 +46,13 @@
             <p>How do you want to save your results?</p>
         </div>
 
-        <span class="arrow" id="useProfileArrow">&#9662; </span><a href="#" onclick="userActions.modalDisplay.displayUseProfileForm()">Use existing profile</a>
-        <div id="useProfileDiv" class="slide expand">
+        <span class="arrow" id="getProfileArrow">&#9662; </span><a href="#" onclick="userActions.modalDisplay.displayGetProfileForm()">Use existing profile</a>
+        <div id="getProfileDiv" class="slide expand">
             <p></p>
-            <form id="useProfileForm">
+            <form id="getProfileForm">
                 <p class="table-row">
                     <label class="table-cell col1">username:</label>
-                    <input type="text" id="useUname" class="table-cell" />
+                    <input type="text" id="getUname" class="table-cell" />
                 </p>
             </form>
             <p><input type="button" class="welcomeBtn" id="anotherId" value="Use profile" onclick="userActions.greetExistingUser(this)" /></p>
@@ -60,20 +63,21 @@
 
         <span class="arrow" id="createProfileArrow">&#9656; </span><a href="#" onclick="userActions.modalDisplay.displayCreateProfileForm()">Create new profile</a>
         <div id="createProfileDiv" class="slide">
-            <p> Choose your username and keyword. Keyword is not secret, like password. Its purpose is to assert
-                that your profile is unique even if there is another user with the same username. Choose some meaningful word.
-                If there are more users with the same username, you will be asked to choose your keyword from the displayed list
-                - you should be able to recognize it even if you don't memorize it. </p>
-            <p>The form accepts letters and numbers, both username and keyword must consist of at least 3 characters.
+            <p>Choose your username and icon. If there are more users with the same username,
+                you will be asked to choose your icon from the displayed list.</p>
+            <p>Username must consist of at least 3 characters - letters and numbers only.
             </p>
-            <form id="createProfileForm">
+            <form id="createProfileForm" enctype="multipart/form-data">
                 <p class="table-row">
                     <label class="table-cell col1">username:</label>
-                    <input type="text" id="createUname" class="table-cell" /><br><br>
+                    <input type="text" id="createUname" name="createUname" class="table-cell" /><br><br>
                 </p>
                 <p class="table-row">
-                    <label class="table-cell col1">keyword:</label>
-                    <input type="text" id="kword" class="table-cell" />
+                    <label class="table-cell col1">user icon:</label>
+                    <!-- hiding input type file is stupid workround to display custom button text 'Browse' instead forced by the browser -->
+                    <input type="file" style="display:none;" id="hidden-uicon" name="file" onchange="userActions.loadFile(event)" />
+                    <input type="button" id="uicon" class="table-cell" value="Browse" onclick="document.getElementById('hidden-uicon').click();" />
+                    <img style="vertical-align:top; max-height:180px; margin-left:20px;" id="icon-to-be" />
                 </p>
             </form>
             <p><input type="button" class="welcomeBtn" value="Create profile" onclick="userActions.greetNewUser(this)" /></p>
@@ -87,7 +91,7 @@
     </div>
 </div>
 
-<div id="container" style="width:1200px; height:1020px; margin:auto; border: solid 1px">
+<div id="container" style="width:1200px; height:1020px; margin:10px auto; border: solid 1px">
     <button id="reset" onclick="userActions.gameManager.resetBoard()" style="width: 130px">Reset</button>
     <button id="check" onclick="userActions.markAsSolvedAndSave()" style="width: 130px">Check solution</button>
     <button id="save" onclick="userActions.saveResults()" style="width: 130px">Save results</button>
@@ -97,8 +101,9 @@
         <li>Choose task by clicking shape thumbnail at the bottom gray panel - full-sized shape will be displayed in the main gray field.</li>
         <li>Drag and drop colored pieces using mouse. Use keyboard arrows to rotate and flip them.</li>
         <li>Thumbnails of the solved puzzles are grayed. You can choose solved puzzle to play it again.</li>
-        <li>If you are using your user profile the puzzles you solved will be saved automatically.</li>
-        <li>If you play anonymously you can still save your results by clicking Save button. You will be asked to either choose an existing profile or create a new one.</li>
+        <li>If you think you solved the puzzle, click button 'Check solution' to verify it.</li>
+        <li>If you are using your user profile the puzzles you solved will be saved automatically if solution is correct.</li>
+        <li>If you play anonymously you can still save your results by clicking 'Save results' button. You will be asked to either choose an existing profile or create a new one.</li>
     </ul>
 </div>
 
