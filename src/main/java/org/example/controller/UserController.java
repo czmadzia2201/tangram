@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/saveuser")
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<?> saveUser(@Valid @RequestBody User user) {
         repository.save(user);
         User userList = repository.findByUsernameAndKeyword(user.getUsername(), user.getKeyword());
         return ResponseEntity.ok(userList);

@@ -3,7 +3,7 @@ class UserActions {
     gameManager = new GameManager();
     modalDisplay = new ModalDisplay();
     userData = null;
-    userLocal = null;
+    jsUser = null;
     anonUsername = null;
 
     getUser(isValid) {
@@ -39,7 +39,7 @@ class UserActions {
 
     saveUser(user, isValid) {
         var localErrorMessage = this.errorMessage;
-        var userajax
+        var localUser;
         $.ajax({
             type: "POST",
             async: false,
@@ -50,7 +50,7 @@ class UserActions {
             cache: false,
             timeout: 600000,
             success: function(data) {
-                userajax = new User(data.id, data.username, data.keyword, new Set(data.solvedTasks));
+                localUser = new User(data.id, data.username, data.keyword, new Set(data.solvedTasks));
             },
             complete: function(xhr) {
                 if(xhr.status==500 && xhr.responseJSON.message.includes("ConstraintViolationException")) {
@@ -65,7 +65,7 @@ class UserActions {
                 console.log("ERROR : ", e);
             }
         });
-        this.userLocal = userajax;
+        this.jsUser = localUser;
         return isValid;
     }
 
@@ -84,14 +84,14 @@ class UserActions {
 
     chooseUser(index) {
         this.setUserValues(index);
-        this.modalDisplay.closeModalAndGreet(this.userLocal.username);
+        this.modalDisplay.closeModalAndGreet(this.jsUser.username);
         this.gameManager.fillThumbContainer();
     }
 
     setUserValues(index) {
         var areSolved = (this.gameManager.solvedTasks.size > 0) ? true : false;
         this.gameManager.solvedTasks = this.mergeSolved(new Set(this.userData[index].solvedTasks), this.gameManager.solvedTasks);
-        this.userLocal = new User(this.userData[index].id, this.userData[index].username, this.userData[index].keyword, this.gameManager.solvedTasks);
+        this.jsUser = new User(this.userData[index].id, this.userData[index].username, this.userData[index].keyword, this.gameManager.solvedTasks);
         if(areSolved)
             this.updateUser(true);
     }
@@ -112,10 +112,10 @@ class UserActions {
 
     updateUser(isValid) {
         var user = {};
-        user["username"] = this.userLocal.username;
-        user["keyword"] = this.userLocal.keyword;
+        user["username"] = this.jsUser.username;
+        user["keyword"] = this.jsUser.keyword;
         user["solvedTasks"] = Array.from(this.gameManager.solvedTasks);
-        user["id"] = this.userLocal.id;
+        user["id"] = this.jsUser.id;
         this.saveUser(user, isValid);
     }
 
@@ -125,7 +125,7 @@ class UserActions {
         if(isValid && this.confirmChoice(obj))
             isValid = this.getUser(isValid);
         if(isValid) {
-            this.modalDisplay.closeModalAndGreet(this.userLocal.username);
+            this.modalDisplay.closeModalAndGreet(this.jsUser.username);
             this.gameManager.fillThumbContainer();
         }
     }
@@ -137,7 +137,7 @@ class UserActions {
         if(isValid && this.confirmChoice(obj))
             isValid = this.createUser(isValid);
         if(isValid) {
-            this.modalDisplay.closeModalAndGreet(this.userLocal.username);
+            this.modalDisplay.closeModalAndGreet(this.jsUser.username);
             this.gameManager.fillThumbContainer();
         }
     }
@@ -191,13 +191,13 @@ class UserActions {
 
     markAsSolvedAndSave() {
         this.gameManager.markAsSolved();
-        if(this.userLocal != null)
+        if(this.jsUser != null)
             this.updateUser(true);
     }
 
     changeUser() {
         if(this.gameManager.resetBoard()) {
-            this.userLocal = null;
+            this.jsUser = null;
             this.anonUsername = null;
             this.gameManager.solvedTasks = new Set();
             this.modalDisplay.displayWelcome();
@@ -206,7 +206,7 @@ class UserActions {
 
     saveResults() {
         if(this.anonUsername!="Anonymous user") {
-            alert("You currently use " + this.userLocal.username + " profile. Your results are being saved automatically. \nIf you want to use another profile click 'Use another profile' button at the top of the page.");
+            alert("You currently use " + this.jsUser.username + " profile. Your results are being saved automatically. \nIf you want to use another profile click 'Use another profile' button at the top of the page.");
             return;
         }
         this.modalDisplay.displayWelcome(false);
