@@ -14,7 +14,7 @@ class UserActions {
             async: false,
             contentType: "application/json",
             url: "/getuser",
-            data: $("#useUname").val(),
+            data: $("#getUname").val(),
             dataType: 'json',
             cache: false,
             timeout: 600000,
@@ -121,7 +121,7 @@ class UserActions {
 
     greetExistingUser(obj) {
         var isValid = true;
-        isValid = this.validate(isValid, "useUname");
+        isValid = this.validate(isValid, "getUname");
         if(isValid && this.confirmChoice(obj))
             isValid = this.getUser(isValid);
         if(isValid) {
