@@ -6,7 +6,6 @@ class UserActions {
     jsUser = null;
     anonUsername = null;
 
-
     getUser(isValid) {
         var localUserActions = this;
         var localErrorMessage = this.errorMessage;
