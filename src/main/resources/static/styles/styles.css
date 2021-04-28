@@ -34,7 +34,7 @@ a {
     width: 200px;
 }
 
-#createProfileForm, #useProfileForm {
+#createProfileForm, #getProfileForm {
     display: table;
 }
 

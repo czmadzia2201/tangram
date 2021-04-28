@@ -17,8 +17,8 @@ class ModalDisplay {
         document.getElementById("hello").innerHTML = "Hey, " + username + "!";
         document.getElementById("welcome").style.display = "none";
         this.resetForms();
-        if(!document.getElementById("useProfileDiv").classList.contains("expand"))
-            document.getElementById("useProfileDiv").classList.add("expand");
+        if(!document.getElementById("getProfileDiv").classList.contains("expand"))
+            document.getElementById("getProfileDiv").classList.add("expand");
         document.getElementById("chooseOfManyDiv").classList.remove("expand");
         document.getElementById("createProfileDiv").classList.remove("expand");
         document.getElementById("useAnonDiv").classList.remove("expand");
@@ -26,7 +26,7 @@ class ModalDisplay {
     }
 
     resetForms() {
-        document.getElementById("useProfileForm").reset();
+        document.getElementById("getProfileForm").reset();
         document.getElementById("createProfileForm").reset();
     }
 
@@ -44,16 +44,16 @@ class ModalDisplay {
         document.getElementById("welcome").style.display = "block";
     }
 
-    displayUseProfileForm() {
+    displayGetProfileForm() {
         document.getElementById("createProfileDiv").classList.remove("expand");
-        this.changeArrow("useProfileArrow", "useProfileDiv");
+        this.changeArrow("getProfileArrow", "getProfileDiv");
         document.getElementById("useAnonDiv").classList.remove("expand");
-        document.getElementById("useProfileDiv").classList.toggle("expand");
+        document.getElementById("getProfileDiv").classList.toggle("expand");
         this.changeArrows();
     }
 
     displayCreateProfileForm() {
-        document.getElementById("useProfileDiv").classList.remove("expand");
+        document.getElementById("getProfileDiv").classList.remove("expand");
         this.changeArrow("createProfileArrow", "createProfileDiv");
         document.getElementById("useAnonDiv").classList.remove("expand");
         document.getElementById("chooseOfManyDiv").classList.remove("expand");
@@ -62,7 +62,7 @@ class ModalDisplay {
     }
 
     displayUseAnonButton() {
-        document.getElementById("useProfileDiv").classList.remove("expand");
+        document.getElementById("getProfileDiv").classList.remove("expand");
         document.getElementById("chooseOfManyDiv").classList.remove("expand");
         document.getElementById("createProfileDiv").classList.remove("expand");
         document.getElementById("useAnonDiv").classList.toggle("expand");
@@ -70,7 +70,7 @@ class ModalDisplay {
     }
 
     changeArrows() {
-        this.changeArrow("useProfileArrow", "useProfileDiv");
+        this.changeArrow("getProfileArrow", "getProfileDiv");
         this.changeArrow("createProfileArrow", "createProfileDiv");
         this.changeArrow("useAnonArrow", "useAnonDiv");
     }

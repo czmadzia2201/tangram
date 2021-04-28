@@ -171,7 +171,7 @@ class UserActions {
     }
 
     confirmChoice(obj) {
-        var formDivs = ["useProfileDiv", "createProfileDiv", "useAnonDiv"];
+        var formDivs = ["getProfileDiv", "createProfileDiv", "useAnonDiv"];
         for(var element of formDivs) {
             if(obj.parentElement.parentElement.id==element)
                 continue;
